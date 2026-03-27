@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Markup - JavaScript Online Compiler</title>
+    <link rel="stylesheet" href="../html/compiler.css" />
+    <link rel="icon" type="image/x-icon" href="../../favicon.ico" />
+  </head>
+  <body>
+    <header>
+      <div id="head-left">
+        <a href="../../index.html">
+          <img src="../images/logo.png" alt="Markup logo" />
+        </a>
+      </div>
+      <div id="head-right">
+        <div id="langlist">
+          <a href="../typescript/index.html">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/960px-Typescript_logo_2020.svg.png?_=20221110153201"
+              alt="TypeScript"
+            />
+          </a>
+          <a href="../cplusplus/index.html">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/1280px-ISO_C%2B%2B_Logo.svg.png"
+              alt="C++"
+            />
+          </a>
+          <a href="../python/index.html">
+            <img
+              src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAJQAlAMBEQACEQEDEQH/xAAbAAACAgMBAAAAAAAAAAAAAAAAAQYHAgQFA//EAEMQAAEDAwADCgkLAwUAAAAAAAEAAgMEBREGEjETFBUhQVFxgZGSBzJCUlNhYqGxIiM0NnJzk7LB0eFVZYIWJjODov/EABsBAQACAwEBAAAAAAAAAAAAAAABBQMEBgIH/8QAMxEAAgEDAAcFCAMBAQEAAAAAAAECAwQRBRIhMTNRYRQVQXGREyIyNFKB0eGhscFC8CP/2gAM..."
+              alt="Python"
+            />
+          </a>
+          <a href="../java/index.html">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/226/226777.png"
+              alt="Java"
+            />
+          </a>
+          <a href="../html/index.html">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/HTML5_Badge.svg/960px-HTML5_Badge.svg.png"
+              alt="HTML5"
+            />
+          </a>
+        </div>
+        <div id="search">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/622/622669.png"
+            alt="Search"
+          />
+        </div>
+      </div>
+    </header>
+    <main>
+      <section id="main-left">
+        <div id="files" class="toppers">
+          <button id="htmlfile" class="topper firstfileborder firstfile">
+            <p>index.html</p>
+          </button>
+          <button id="cssfile" class="topper"><p>styles.css</p></button>
+          <button id="jsfile" style="border-right: none" class="topper">
+            <p>index.js</p>
+          </button>
+        </div>
+        <div id="codespace">
+          <div id="editor-container">
+            <div id="line-numbers">1</div>
+            <textarea id="editor" spellcheck="false" wrap="off"></textarea>
+          </div>
+        </div>
+      </section>
+      <section id="main-right">
+        <div id="outconsole" class="toppers">
+          <button id="output-btn" class="topper firstfileborder firstfile">
+            <p>Output</p>
+          </button>
+          <button id="console-btn" class="topper"><p>Console</p></button>
+          <button id="run"><p>Run</p></button>
+        </div>
+        <div class="output">
+          <iframe id="preview"></iframe>
+        </div>
+      </section>
+    </main>
+    <footer></footer>
+  </body>
+</html>

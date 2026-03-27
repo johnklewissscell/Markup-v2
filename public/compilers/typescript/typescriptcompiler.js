@@ -1,7 +1,7 @@
 const fileContents = {
     'index.html': `<!DOCTYPE html>\n<html>\n<head>\n  <style>\n    body { font-family: sans-serif; text-align: center; padding-top: 50px; }\n    button { padding: 10px 20px; cursor: pointer; border-radius: 8px; border: 1px solid #ddd; }\n  </style>\n</head>\n<body>\n  <h1>TypeScript Editor</h1>\n  <p id="message">Check the console!</p>\n  <button onclick="greet()">Click Me</button>\n</body>\n</html>`,
     'styles.css': `h1 {\n  color: #007acc;\n}\n\np {\n  color: #666;\n}`,
-    'index.ts': `// TypeScript Example\nfunction greet() {\n  const msg = "Hello from TypeScript!";\n  console.log(msg);\n  \n  const el = document.getElementById('message');\n  if(el) el.innerText = "Check the logs in console!fi";\n}`
+    'index.ts': `// TypeScript Example\nfunction greet() {\n  const msg = "Hello from TypeScript!";\n  console.log(msg);\n  \n  const el = document.getElementById('message');\n  if(el) el.innerText = "Check the logs in console!";\n}`
 };
 
 let currentFile = 'index.html';
