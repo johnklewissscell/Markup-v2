@@ -1,9 +1,9 @@
 const fileContents = {
-    'Main.java': `public class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, Java World!");\n        System.out.println("Input received: " + (args.length > 0 ? args[0] : "None"));\n    }\n}`,
-    'Utils.java': `public class Utils {\n    public static void log(String msg) {\n        System.out.println("[LOG]: " + msg);\n    }\n}`
+    'main.py': `def main():\n    print("Hello from Python!")\n    name = "User"\n    print(f"Welcome to the editor, {name}!")\n\nif __name__ == "__main__":\n    main()`,
+    'utils.py': `def helper():\n    return "I am a helper function"`
 };
 
-let currentFile = 'Main.java';
+let currentFile = 'main.py';
 const editor = document.getElementById('editor');
 const preview = document.getElementById('preview');
 const lineNumbers = document.getElementById('line-numbers');
@@ -14,9 +14,11 @@ consoleWindow.style.display = 'block';
 consoleWindow.style.width = '100%';
 consoleWindow.style.height = '100%';
 consoleWindow.style.background = '#1e1e1e';
+consoleWindow.style.color = '#dcdcdc';
 consoleWindow.style.overflowY = 'auto';
 consoleWindow.style.padding = '10px';
 consoleWindow.style.boxSizing = 'border-box';
+consoleWindow.style.fontFamily = 'monospace';
 document.querySelector('.output').appendChild(consoleWindow);
 
 const updateLineNumbers = () => {
@@ -83,16 +85,16 @@ document.getElementById('run').addEventListener('click', () => {
     consoleWindow.innerHTML = '';
     
     const logEntry = document.createElement('div');
-    logEntry.style.fontFamily = 'monospace';
-    logEntry.style.fontSize = '12px';
-    logEntry.style.padding = '5px 10px';
+    logEntry.style.fontSize = '13px';
+    logEntry.style.lineHeight = '1.5';
     
-    logEntry.innerHTML = `<span style="color: blue;">[Compiling Main.java...]</span><br>` +
-                         `> Hello, Java World!<br>` +
-                         `> Input received: None<br><br>` +
-                         `<span style="color: green;">Program exited with code 0</span>`;
+    logEntry.innerHTML = `<span style="color: #56b6c2;">$ python3 main.py</span><br>` +
+                         `Hello from Python!<br>` +
+                         `Welcome to the editor, User!<br><br>` +
+                         `<span style="color: #98c379;">>>> Process finished with exit code 0</span>`;
     
     consoleWindow.appendChild(logEntry);
+    consoleWindow.scrollTop = consoleWindow.scrollHeight;
 });
 
 setupTabs('files');
