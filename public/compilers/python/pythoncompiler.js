@@ -1,5 +1,5 @@
 const fileContents = {
-    'main.py': `def main():\n    print("Hello from Python!")\n    name = "User"\n    print(f"Welcome to the editor, {name}!")\n\nif __name__ == "__main__":\n    main()`,
+    'main.py': `def main():\n    print("Hello from Python!")\n    name = "User"\n    print("Welcome to the editor, {name}!")\n\nif __name__ == "__main__":\n    main()`,
     'utils.py': `def helper():\n    return "I am a helper function"`
 };
 
