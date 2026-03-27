@@ -15,6 +15,7 @@ consoleWindow.style.display = 'none';
 consoleWindow.style.width = '100%';
 consoleWindow.style.height = '100%';
 consoleWindow.style.background = '#1e1e1e';
+consoleWindow.style.color = '#dcdcdc';
 consoleWindow.style.overflowY = 'auto';
 consoleWindow.style.padding = '10px';
 consoleWindow.style.boxSizing = 'border-box';
