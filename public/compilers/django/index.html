@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Markup - Python Online Compiler</title>
+    <title>Markup - Django Online Compiler</title>
     <link rel="stylesheet" href="../compiler.css" />
     <link rel="icon" type="image/x-icon" href="../../../favicon.ico" />
   </head>
@@ -16,12 +16,16 @@
       </div>
       <div id="head-right">
         <div id="langlist">
-          <a href="../django/">
-            <img
-              src="data:image/png;base64,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"
-              alt="Django"
-            />
-          </a>
+          <img
+            src="data:image/png;base64,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"
+            alt="Django"
+            style="
+                background-color: #c8c7c7;
+                padding: 7px;
+                border-radius: 7px;
+                box-shadow: 0 3px 5px 0 #454545;
+              "
+          />
           <a href="../react/">
             <img
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1280px-React-icon.svg.png?_=20220125121207"
@@ -70,7 +74,7 @@
               alt="Rust"
             />
           </a>
-           <a href="../go/">
+          <a href="../go/">
             <img
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Go_Logo_Blue.svg/500px-Go_Logo_Blue.svg.png"
               alt="Go"
@@ -124,16 +128,12 @@
               alt="C++"
             />
           </a>
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1280px-Python-logo-notext.svg.png"
-            style="
-              background-color: #c8c7c7;
-              padding: 7px;
-              border-radius: 7px;
-              box-shadow: 0 3px 5px 0 #454545;
-            "
-            alt="Python"
-          />
+          <a href="../python/">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1280px-Python-logo-notext.svg.png"
+              alt="Python"
+            />
+          </a>
           <a href="../java/">
             <img
               src="https://cdn-icons-png.flaticon.com/512/226/226777.png"
@@ -158,12 +158,15 @@
     <main>
       <section id="main-left">
         <div id="files" class="toppers">
-          <button
-            style="border: none"
-            id="htmlfile"
-            class="topper firstfileborder firstfile"
-          >
-            <p>Main.py</p>
+          <button id="htmlfile" class="topper firstfileborder firstfile">
+            <p>views.py</p>
+          </button>
+          <button id="reactfile" class="topper">
+            <p>urls.py</p>
+          </button>
+          <button id="cssfile" class="topper"><p>settings.py</p></button>
+          <button id="jsfile" style="border-right: none" class="topper">
+            <p>models.py</p>
           </button>
         </div>
         <div id="codespace">
@@ -175,6 +178,9 @@
       </section>
       <section id="main-right">
         <div id="outconsole" class="toppers">
+          <button id="output-btn" class="topper firstfileborder firstfile">
+            <p>Output</p>
+          </button>
           <button id="console-btn" class="topper"><p>Console</p></button>
           <button id="run"><p>Run</p></button>
         </div>
@@ -184,7 +190,7 @@
       </section>
     </main>
     <footer></footer>
-    <script src="./pythoncompiler.js"></script>
+    <script src="./djangocompiler.js"></script>
     <script src="../darkmode.js"></script>
   </body>
 </html>

@@ -12,18 +12,102 @@
       <div id="head-left">
         <a href="../../../">
           <img src="../images/logo.png" alt="Markup logo" />
-        </a> 
+        </a>
       </div>
       <div id="head-right">
         <div id="langlist">
+          <a href="../django/">
+            <img
+              src="data:image/png;base64,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"
+              alt="Django"
+            />
+          </a>
+          <a href="../react/">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1280px-React-icon.svg.png?_=20220125121207"
+              alt="React"
+            />
+          </a>
+          <a href="../bootstrap/">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Bootstrap_logo.svg/500px-Bootstrap_logo.svg.png"
+              alt="Bootstrap"
+            />
+          </a>
+          <a href="../dart/">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/c/c6/Dart_logo.png?_=20220718193800"
+              alt="Dart"
+            />
+          </a>
+          <a href="../swift/">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/5968/5968371.png"
+              alt="Swift"
+            />
+          </a>
+          <a href="../php/">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/PHP-logo.svg/1280px-PHP-logo.svg.png?_=20180502235434"
+              alt="PHP"
+            />
+          </a>
+          <a href="../ruby/">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Ruby_logo.png?_=20061027055035"
+              alt="Ruby"
+            />
+          </a>
+          <a href="../scala/">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/8/85/Scala_logo.png?_=20220219154600"
+              alt="Scala"
+            />
+          </a>
+          <a href="../rust/">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Rust_programming_language_black_logo.svg/250px-Rust_programming_language_black_logo.svg.png?_=20220508043311"
+              alt="Rust"
+            />
+          </a>
+           <a href="../go/">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Go_Logo_Blue.svg/500px-Go_Logo_Blue.svg.png"
+              alt="Go"
+            />
+          </a>
+          <a href="../csharp/">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Csharp_Logo.png?_=20180210215736"
+              alt="C#"
+            />
+          </a>
+          <a href="../c/">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/C_Programming_Language.svg/960px-C_Programming_Language.svg.png?_=20201031132917"
+              alt="C"
+            />
+          </a>
+          <a href="../sql/">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/8/87/Sql_data_base_with_logo.png?_=20210130181641"
+              alt="SQL"
+            />
+          </a>
+          <a href="../r/">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/R_logo.svg/1280px-R_logo.svg.png?_=20240131042527"
+              alt="R"
+            />
+          </a>
           <a href="../kotlin/">
             <img
               src="data:image/jpeg;base64,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"
               alt="Kotlin"
             />
           </a>
-          <img 
-        style="
+          <img
+            style="
               background-color: #c8c7c7;
               padding: 7px;
               border-radius: 7px;
@@ -99,5 +183,6 @@
     </main>
     <footer></footer>
     <script src="./javascriptcompiler.js"></script>
+    <script src="../darkmode.js"></script>
   </body>
 </html>
