@@ -8,8 +8,9 @@ body {
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
     Cantarell, sans-serif;
   line-height: 1.6;
-  color: #333;
+  color: #faf9f6;
   cursor: default;
+  background-color: #333;
 }
 header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -26,21 +27,26 @@ h1 {
   opacity: 0.9;
 }
 main {
-  max-width: 1200px;
+  max-width: 1600px;
   margin: 3rem auto;
   padding: 0 2rem;
+  background-color: #333;
 }
+
 .features {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 2rem;
   margin: 3rem 0;
+  margin-left: 2.4rem;
 }
 .feature {
-  background: #f5f5f5;
-  padding: 1.5rem;
+  background: #333;
+  padding: 1rem;
+  width: 90%;
   border-radius: 8px;
   text-align: center;
+  border: #444 solid 3px;
 }
 .feature h3 {
   color: #667eea;
@@ -73,9 +79,9 @@ footer {
   flex-wrap: wrap;
   gap: 30px;
   padding: 40px 20px;
-  background: #fff;
+  background: #333;
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border: #444 solid 3px;
 }
 .lang-card {
   text-decoration: none;
@@ -84,30 +90,35 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 120px;
+  width: 150px;
 }
 .lang-card:hover {
   transform: translateY(-10px);
 }
 .lang-card img {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   object-fit: contain;
   margin-bottom: 10px;
+  border-radius: 15px;
 }
 .lang-card span {
   font-weight: bold;
   font-size: 0.9rem;
+  color: #fff;
 }
+
 .hero {
+  background: #333;
   padding: 60px 20px;
-  background: #fdfdfd;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #333;
   margin-bottom: 40px;
+  border-radius: 10px;
+  margin-top: -30px;
 }
 .section-title {
   text-align: center;
   margin-bottom: 40px;
   font-size: 2rem;
-  color: #4a148c;
+  color: #fff;
 }
