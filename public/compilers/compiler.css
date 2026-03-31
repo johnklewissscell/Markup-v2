@@ -1,5 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Trispace:wght@100..800&display=swap");
 
+#head-left::-webkit-scrollbar {
+  background: #2469ff;
+  border: none;
+  display: none;
+  scrollbar-width: none;
+}
+
+#head-left::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -16,35 +27,131 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #fff;
-  box-shadow: 0 5px 3px 0 #b8b9bb;
-  padding: 7.5px 15px;
-  height: 65px;
-  position: relative;
-  z-index: 10;
+  background: linear-gradient(120deg, #2469ff 0%, #6cb8ff 48%, #9ed0ff 100%);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.23);
+  padding: 12px 18px;
+  min-height: 78px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(8px);
+}
+
+#head-left {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 12px;
+}
+
+#head-left a {
+  display: inline-flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  text-decoration: none;
+  color: white;
 }
 
 #head-left img {
-  width: 50px;
-  height: 50px;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  background: rgba(255,255,255,0.65);
+}
+
+#head-left h1 {
+  font-size: 18px;
+  margin: 0;
+  color: #fff;
+  letter-spacing: 0.4px;
+  font-weight: 700;
 }
 
 #head-right {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 40px;
-  width: 1500px;
+  gap: 16px;
+  width: 100%;
+  max-width: 1200px;
+  overflow: visible;
 }
 
 #langlist {
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.22);
+  padding: 7px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.35);
+  backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
+  gap: 8px;
   overflow-x: auto;
-  padding-bottom: 2px;
-  width: 100%;
+  overflow-y: hidden;
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: calc(100% - 160px);
+  scrollbar-width: thin;
+  scrollbar-color: #7da9e2 #d8e6ff;
+}
+
+#langlist::-webkit-scrollbar {
+  height: 8px;
+}
+
+#langlist::-webkit-scrollbar-thumb {
+  background: #7da9e2;
+  border-radius: 999px;
+}
+
+#langlist::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.15);
+  border-radius: 999px;
+}
+
+#search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 4px;
+}
+
+#langlist a,
+#langlist > img {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  min-height: 52px;
+  border-radius: 12px;
+  background: linear-gradient(160deg, #f8fbff, #eaf4ff);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+#langlist a:hover,
+#langlist > img:hover {
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.22);
+  background: linear-gradient(160deg, #ffffff, #d7ebff);
+}
+
+#langlist a img,
+#langlist > img img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  display: block;
+}
+
+#langlist a img,
+#langlist > img {
+  cursor: pointer;
 }
 
 #langlist a.lang-pill {
@@ -72,6 +179,17 @@ header {
   cursor: pointer;
 }
 
+body.dark #langlist a,
+body.dark #langlist > img {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.11);
+}
+
+body.dark #langlist a:hover,
+body.dark #langlist > img:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
 body.dark #langlist a.lang-pill {
   background: rgba(255, 255, 255, 0.08);
   color: #e8e8e8;
@@ -81,10 +199,86 @@ body.dark #langlist a.lang-pill:hover {
   background: rgba(255, 255, 255, 0.15);
 }
 
-#search img {
-  width: 30px;
-  height: 30px;
+#search,
+#search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#search input#lang-search-input {
+  width: 180px;
+  max-width: 220px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid #ccc;
+  font-family: inherit;
+  font-size: 12px;
+  transition: width 0.2s ease, border-color 0.2s ease;
+  outline: none;
+  display: none;
+  background: #fff;
+  color: #222;
+}
+
+#search input#lang-search-input.active {
+  display: block;
+  width: 245px;
+}
+
+#lang-search-results {
+  position: absolute;
+  top: 54px;
+  right: 0;
+  left: auto;
+  width: 260px;
+  min-height: 0;
+  background: #ffffff;
+  border: 1px solid #d0d0d0;
+  border-radius: 10px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.18);
+  z-index: 50;
+  overflow: hidden;
+  display: none;
+}
+
+#lang-search-results.active {
+  display: block;
+}
+
+#lang-search-results .result-item {
+  padding: 8px 11px;
+  font-size: 13px;
+  color: #333;
   cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+#lang-search-results .result-item:last-child {
+  border-bottom: none;
+}
+
+#lang-search-results .result-item:hover {
+  background: #f0f6ff;
+}
+
+#search img,
+#search #theme-toggle {
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  border: none;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.18);
+  padding: 4px;
+}
+
+#search #theme-toggle {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 
 main {
@@ -253,6 +447,41 @@ body.dark header {
 
 body.dark main {
   background-color: transparent;
+}
+
+body.dark #search input#lang-search-input {
+  background: #2b2b2b;
+  border-color: #444;
+  color: #f0f0f0;
+}
+
+body.dark #lang-search-results {
+  background: #1e1e1e;
+  border-color: #444;
+}
+
+body.dark #lang-search-results .result-item {
+  color: #e8e8e8;
+}
+
+body.dark #lang-search-results .result-item:hover {
+  background: #383838;
+}
+
+body.dark #search img,
+body.dark #search #theme-toggle {
+  background: #292929;
+}
+
+body.dark #langlist a,
+body.dark #langlist > img {
+  background: linear-gradient(160deg, #1f1f2a, #2a2b36);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.45);
+}
+
+body.dark #langlist a:hover,
+body.dark #langlist > img:hover {
+  background: linear-gradient(160deg, #2f2f3c, #2f3140);
 }
 
 body.dark #main-left,
