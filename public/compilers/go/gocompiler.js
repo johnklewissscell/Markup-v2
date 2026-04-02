@@ -68,16 +68,68 @@ const setupTabs = (containerId) => {
     });
 };
 
+function simulateGo(code) {
+    let output = '';
+    const vars = {};
+
+    const lines = code.split('\n');
+
+    lines.forEach(line => {
+        line = line.trim();
+
+        if (line.startsWith('const ')) {
+            const match = line.match(/const (\w+) = "(.*)"/);
+            if (match) vars[match[1]] = match[2];
+        }
+
+        if (line.includes(':=')) {
+            const match = line.match(/(\w+)\s*:=\s*(\d+)\s*\+\s*(\d+)/);
+            if (match) {
+                vars[match[1]] = Number(match[2]) + Number(match[3]);
+            }
+        }
+
+        if (line.startsWith('fmt.Println')) {
+            const inside = line.match(/fmt\.Println\((.*)\)/)[1];
+            const parts = inside.split(',').map(p => p.trim());
+
+            let text = '';
+            parts.forEach(p => {
+                if (/^".*"$/.test(p)) {
+                    text += p.slice(1, -1);
+                } else if (vars[p] !== undefined) {
+                    text += vars[p];
+                }
+                text += ' ';
+            });
+
+            output += text.trim() + '<br>';
+        }
+
+        if (line.startsWith('fmt.Printf')) {
+            const match = line.match(/fmt\.Printf\("(.*)",\s*(\w+)\)/);
+            if (match) {
+                let text = match[1];
+                const val = vars[match[2]] || '';
+                text = text.replace('%s', val).replace(/\\n/g, '<br>');
+                output += text;
+            }
+        }
+    });
+
+    return output;
+}
+
 document.getElementById('run').addEventListener('click', () => {
     fileContents[currentFile] = editor.value;
     consoleWindow.innerHTML = '<span style="color: #7ee787;">$ go run main.go</span><br>';
     
     setTimeout(() => {
         const log = document.createElement('div');
-        log.innerHTML = `Hello, Go World!<br>Welcome to the Go Console, Gopher!<br>Result of 15 + 27 = 42<br><br><span style="color: #8b949e;">[Done] exited with code=0</span>`;
+        log.innerHTML = simulateGo(editor.value) + '<br><span style="color: #8b949e;">[Done] exited with code=0</span>';
         consoleWindow.appendChild(log);
         consoleWindow.scrollTop = consoleWindow.scrollHeight;
-    }, 550);
+    }, 300);
 });
 
 setupTabs('files');

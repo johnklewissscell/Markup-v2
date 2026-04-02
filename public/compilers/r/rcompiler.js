@@ -1,5 +1,5 @@
 const fileContents = {
-    'script.R': `# R Console Script\nx <- c(1, 2, 3, 4, 5)\ny <- x * 2\n\nprint("Values of y:")\nprint(y)\n\ncat("Sum of y is:", sum(y), "\\n")\n\n# Try an error\n# print(undefined_variable)`
+    'script.R': `# R Console Script\nx <- c(1, 2, 3, 4, 5)\ny <- x * 2\n\nprint("Values of y:")\nprint(y)\n\ncat("Sum of y is: ", sum(y), "\n")\n\n# Try an error\n# print(undefined_variable)`
 };
 
 let currentFile = 'script.R';
@@ -70,6 +70,64 @@ const setupTabs = (containerId) => {
     });
 };
 
+function simulateR(code) {
+    let output = '';
+    const vars = {};
+
+    const lines = code.split('\n');
+
+    lines.forEach(line => {
+        line = line.trim();
+        if (!line || line.startsWith('#')) return;
+
+        if (line.includes('<-')) {
+            const [name, value] = line.split('<-').map(s => s.trim());
+
+            if (value.startsWith('c(')) {
+                const nums = value.replace(/c\(|\)/g, '').split(',').map(n => Number(n.trim()));
+                vars[name] = nums;
+            } else if (value.includes('*')) {
+                const [a, b] = value.split('*').map(s => s.trim());
+                if (vars[a]) {
+                    vars[name] = vars[a].map(v => v * Number(b));
+                }
+            }
+        }
+
+        if (line.startsWith('print(')) {
+            const content = line.slice(6, -1);
+
+            if (/^".*"$/.test(content)) {
+                output += `[1] ${content}<br>`;
+            } else if (vars[content]) {
+                output += `<span style="color:#0000BB;">[1] ${vars[content].join(' ')}</span><br>`;
+            }
+        }
+
+        if (line.startsWith('cat(')) {
+            const inside = line.slice(4, -1);
+            const parts = inside.split(',');
+
+            let text = '';
+            parts.forEach(p => {
+                p = p.trim();
+                if (/^".*"$/.test(p)) {
+                    text += p.slice(1, -1);
+                } else if (p.startsWith('sum(')) {
+                    const varName = p.slice(4, -1);
+                    if (vars[varName]) {
+                        text += vars[varName].reduce((a, b) => a + b, 0);
+                    }
+                }
+            });
+
+            output += text + '<br>';
+        }
+    });
+
+    return output;
+}
+
 document.getElementById('run').addEventListener('click', () => {
     fileContents[currentFile] = editor.value;
     consoleWindow.innerHTML = '<span style="color: #0000BB;">> source("script.R")</span><br>';
@@ -77,15 +135,10 @@ document.getElementById('run').addEventListener('click', () => {
     setTimeout(() => {
         const log = document.createElement('div');
         log.style.lineHeight = '1.6';
-        log.innerHTML = `
-            [1] "Values of y:"<br>
-            <span style="color: #0000BB;">[1] 2 4 6 8 10</span><br>
-            Sum of y is: 30<br>
-            <span style="color: #00BB00;">> </span>
-        `;
+        log.innerHTML = simulateR(editor.value) + '<span style="color: #00BB00;">> </span>';
         consoleWindow.appendChild(log);
         consoleWindow.scrollTop = consoleWindow.scrollHeight;
-    }, 400);
+    }, 300);
 });
 
 setupTabs('files');

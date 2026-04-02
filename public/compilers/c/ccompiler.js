@@ -70,16 +70,47 @@ const setupTabs = (containerId) => {
     });
 };
 
+function simulateC(code) {
+    let output = '';
+
+    const printfRegex = /printf\((.*?)\);/g;
+    let match;
+
+    while ((match = printfRegex.exec(code)) !== null) {
+        let content = match[1];
+
+        const stringMatch = content.match(/"(.*?)"/);
+        if (!stringMatch) continue;
+
+        let text = stringMatch[1];
+
+        if (content.includes('%d')) {
+            const exprMatch = content.split(',')[1];
+            try {
+                const result = eval(exprMatch);
+                text = text.replace('%d', result);
+            } catch {
+                text = text.replace('%d', '0');
+            }
+        }
+
+        text = text.replace(/\\n/g, '<br>');
+        output += text;
+    }
+
+    return output;
+}
+
 document.getElementById('run').addEventListener('click', () => {
     fileContents[currentFile] = editor.value;
     consoleWindow.innerHTML = '<span style="color: #bbb;">$ gcc main.c -o program</span><br><span style="color: #bbb;">$ ./program</span><br>';
     
     setTimeout(() => {
         const log = document.createElement('div');
-        log.innerHTML = `Hello, C World!<br>Sum: 30<br><br><span style="color: #55ff55;">Program exited with status 0</span>`;
+        log.innerHTML = simulateC(editor.value) + '<br><br><span style="color: #55ff55;">Program exited with status 0</span>';
         consoleWindow.appendChild(log);
         consoleWindow.scrollTop = consoleWindow.scrollHeight;
-    }, 500);
+    }, 300);
 });
 
 setupTabs('files');

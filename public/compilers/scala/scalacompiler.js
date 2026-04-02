@@ -68,16 +68,58 @@ const setupTabs = (containerId) => {
     });
 };
 
+function simulateScala(code) {
+    let output = '';
+    const vars = {};
+
+    const lines = code.split('\n');
+
+    lines.forEach(line => {
+        line = line.trim();
+
+        if (line.startsWith('val numbers')) {
+            const match = line.match(/List\((.*)\)/);
+            if (match) {
+                vars.numbers = match[1].split(',').map(n => Number(n.trim()));
+            }
+        }
+
+        if (line.includes('numbers.map')) {
+            vars.doubled = vars.numbers.map(n => n * 2);
+        }
+
+        if (line.includes('numbers.sum')) {
+            vars.sum = vars.numbers.reduce((a, b) => a + b, 0);
+        }
+
+        if (line.startsWith('println')) {
+            const content = line.match(/println\((.*)\)/)[1];
+
+            if (/^".*"$/.test(content)) {
+                output += content.slice(1, -1) + '<br>';
+            } else if (content.startsWith('s"')) {
+                let text = content.slice(2, -1);
+                text = text.replace(/\$numbers/g, `List(${vars.numbers.join(', ')})`);
+                text = text.replace(/\$doubled/g, `List(${vars.doubled.join(', ')})`);
+                text = text.replace(/\$sum/g, vars.sum);
+                output += text + '<br>';
+            }
+        }
+    });
+
+    return output;
+}
+
 document.getElementById('run').addEventListener('click', () => {
     fileContents[currentFile] = editor.value;
     consoleWindow.innerHTML = '<span style="color: #4eb0ff;">[info] compiling 1 Scala source...</span><br><span style="color: #4eb0ff;">[info] running Main</span><br><br>';
     
     setTimeout(() => {
         const log = document.createElement('div');
-        log.innerHTML = `Hello from Scala!<br>Original: List(1, 2, 3, 4, 5)<br>Doubled: List(2, 4, 6, 8, 10)<br>The sum is: 15<br><br><span style="color: #a6e22e;">[success] Total time: 1 s</span>`;
+        log.innerHTML = simulateScala(editor.value) + '<br><span style="color: #a6e22e;">[success] Total time: 1 s</span>';
         consoleWindow.appendChild(log);
         consoleWindow.scrollTop = consoleWindow.scrollHeight;
-    }, 800);
+    }, 400);
 });
 
 setupTabs('files');

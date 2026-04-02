@@ -77,6 +77,28 @@ const setupTabs = (containerId) => {
     });
 };
 
+function simulateKotlin(code) {
+    let output = '';
+    const printlnRegex = /println\((.*?)\)/g;
+    let match;
+
+    while ((match = printlnRegex.exec(code)) !== null) {
+        let content = match[1].trim();
+
+        if (/^".*"$/.test(content)) {
+            output += content.slice(1, -1) + '<br>';
+        } else {
+            try {
+                output += eval(content) + '<br>';
+            } catch {
+                output += content + '<br>';
+            }
+        }
+    }
+
+    return output;
+}
+
 document.getElementById('run').addEventListener('click', () => {
     fileContents[currentFile] = editor.value;
     consoleWindow.innerHTML = '<div style="color: #7F52FF;">[Compiling Kotlin...]</div>';
@@ -99,9 +121,9 @@ document.getElementById('run').addEventListener('click', () => {
 
     setTimeout(() => {
         const log = document.createElement('div');
-        log.innerHTML = `> Hello Kotlin!<br>> Kotlin Compiler Active<br><span style="color: green;">✔ Build Successful</span>`;
+        log.innerHTML = simulateKotlin(fileContents['Main.kt']) + '<span style="color: green;">✔ Build Successful</span>';
         consoleWindow.appendChild(log);
-    }, 600);
+    }, 400);
 });
 
 setupTabs('files');

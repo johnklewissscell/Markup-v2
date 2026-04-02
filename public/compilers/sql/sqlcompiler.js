@@ -64,33 +64,66 @@ const setupTabs = (containerId) => {
             tab.classList.add('firstfile');
             
             if (containerId === 'outconsole' && tab.textContent.trim() === 'Console') {
-            tab.click();
-        }
+                tab.click();
+            }
         });
     });
 };
+
+const mockDB = {
+    employees: [
+        { id: 1, name: 'Alice', role: 'Backend Lead', department: 'Engineering' },
+        { id: 2, name: 'Bob', role: 'DevOps Engineer', department: 'Engineering' },
+        { id: 3, name: 'Eve', role: 'Designer', department: 'Design' },
+        { id: 5, name: 'Charlie', role: 'QA Analyst', department: 'Engineering' }
+    ]
+};
+
+function simulateSQL(query) {
+    query = query.replace(/--.*$/gm, '').trim().toLowerCase();
+
+    const selectMatch = query.match(/select (.+) from (\w+)( where (.+))?/);
+    if (!selectMatch) return 'Invalid query<br>';
+
+    let columns = selectMatch[1].trim();
+    const table = selectMatch[2].trim();
+    const whereClause = selectMatch[4];
+
+    if (!mockDB[table]) return 'Table not found<br>';
+
+    let rows = [...mockDB[table]];
+
+    if (whereClause) {
+        const whereMatch = whereClause.match(/(\w+)\s*=\s*'([^']+)'/);
+        if (whereMatch) {
+            const col = whereMatch[1];
+            const val = whereMatch[2];
+            rows = rows.filter(r => String(r[col]) === val);
+        }
+    }
+
+    if (columns !== '*') {
+        columns = columns.split(',').map(c => c.trim());
+    } else {
+        columns = Object.keys(rows[0] || {});
+    }
+
+    let output = '+ ' + columns.join(' | ') + ' +<br>';
+    output += rows.map(r => columns.map(c => r[c]).join(' | ')).join('<br>');
+    output += `<br><br>${rows.length} rows returned`;
+
+    return output;
+}
 
 document.getElementById('run').addEventListener('click', () => {
     fileContents[currentFile] = editor.value;
     consoleWindow.innerHTML = '<span style="color: #66d9ef;">-- Executing query...</span><br><br>';
     
     setTimeout(() => {
-        const table = document.createElement('pre');
-        table.style.margin = '0';
-        table.style.color = '#ae81ff';
-        
-        const result = 
-`+----+----------+-----------------+
-| id | name     | role            |
-+----+----------+-----------------+
-| 1  | Alice    | Backend Lead    |
-| 2  | Bob      | DevOps Engineer |
-| 5  | Charlie  | QA Analyst      |
-+----+----------+-----------------+
-3 rows in set (0.02 sec)`;
-
-        table.textContent = result;
-        consoleWindow.appendChild(table);
+        const resultDiv = document.createElement('div');
+        resultDiv.style.color = '#ae81ff';
+        resultDiv.innerHTML = simulateSQL(editor.value);
+        consoleWindow.appendChild(resultDiv);
         
         const footer = document.createElement('div');
         footer.style.marginTop = '10px';
@@ -99,7 +132,7 @@ document.getElementById('run').addEventListener('click', () => {
         consoleWindow.appendChild(footer);
         
         consoleWindow.scrollTop = consoleWindow.scrollHeight;
-    }, 400);
+    }, 300);
 });
 
 setupTabs('files');

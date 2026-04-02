@@ -68,16 +68,71 @@ const setupTabs = (containerId) => {
     });
 };
 
+function simulateRust(code) {
+    let output = '';
+    const vars = {};
+
+    const lines = code.split('\n');
+
+    lines.forEach(line => {
+        line = line.trim();
+
+        if (line.startsWith('let ')) {
+            if (line.includes('vec!')) {
+                const match = line.match(/let (\w+) = vec!\[(.*)\]/);
+                if (match) {
+                    vars[match[1]] = match[2].split(',').map(n => Number(n.trim()));
+                }
+            } else if (line.includes('=')) {
+                const match = line.match(/let (\w+) = "?([^";]+)"?/);
+                if (match) {
+                    const name = match[1];
+                    const val = isNaN(match[2]) ? match[2] : Number(match[2]);
+                    vars[name] = val;
+                }
+            }
+        }
+
+        if (line.startsWith('println!')) {
+            const inside = line.match(/println!\((.*)\)/)[1];
+
+            const strMatch = inside.match(/"(.*?)"/);
+            if (!strMatch) return;
+
+            let text = strMatch[1];
+            const args = inside.split(',').slice(1).map(a => a.trim());
+
+            args.forEach(arg => {
+                if (arg.includes('+')) {
+                    const [a, b] = arg.split('+').map(x => vars[x.trim()]);
+                    text = text.replace("{}", a + b);
+                } else if (vars[arg] !== undefined) {
+                    text = text.replace("{}", vars[arg]);
+                }
+            });
+
+            if (text.includes("{:?}")) {
+                const varName = args[0];
+                text = text.replace("{:?}", `[${vars[varName].join(', ')}]`);
+            }
+
+            output += text + '<br>';
+        }
+    });
+
+    return output;
+}
+
 document.getElementById('run').addEventListener('click', () => {
     fileContents[currentFile] = editor.value;
     consoleWindow.innerHTML = '<span style="color: #f07178;">Compiling</span> project v0.1.0...<br><span style="color: #c3e88d;">Finished</span> dev [unoptimized + debuginfo] target(s) in 0.43s<br><span style="color: #89ddff;">Running</span> `target/debug/main`<br><br>';
     
     setTimeout(() => {
         const log = document.createElement('div');
-        log.innerHTML = `Hello, Rustacean!<br>5 + 10 = 15<br>Vector: [1, 2, 3]<br><br><span style="color: #c3e88d;">Process finished with exit code 0</span>`;
+        log.innerHTML = simulateRust(editor.value) + '<br><span style="color: #c3e88d;">Process finished with exit code 0</span>';
         consoleWindow.appendChild(log);
         consoleWindow.scrollTop = consoleWindow.scrollHeight;
-    }, 600);
+    }, 400);
 });
 
 setupTabs('files');

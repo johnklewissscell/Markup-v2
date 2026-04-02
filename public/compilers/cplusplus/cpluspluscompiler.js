@@ -80,6 +80,33 @@ const setupTabs = (containerId) => {
     });
 };
 
+function simulateCPP(code) {
+    let output = '';
+
+    const coutRegex = /std::cout\s*<<([^;]+);/g;
+    let match;
+
+    while ((match = coutRegex.exec(code)) !== null) {
+        let parts = match[1].split('<<').map(p => p.trim());
+
+        parts.forEach(part => {
+            if (part === 'std::endl') {
+                output += '<br>';
+            } else if (/^".*"$/.test(part)) {
+                output += part.slice(1, -1);
+            } else {
+                try {
+                    output += eval(part);
+                } catch {
+                    output += '';
+                }
+            }
+        });
+    }
+
+    return output;
+}
+
 document.getElementById('run').addEventListener('click', () => {
     fileContents[currentFile] = editor.value;
     consoleWindow.innerHTML = '';
@@ -89,8 +116,8 @@ document.getElementById('run').addEventListener('click', () => {
     
     logEntry.innerHTML = `<span style="color: #888;">$ g++ main.cpp -o main</span><br>` +
                          `<span style="color: #888;">$ ./main</span><br>` +
-                         `Hello from C++!<br>` +
-                         `Compiler is ready.<br><br>` +
+                         simulateCPP(editor.value) +
+                         `<br><br>` +
                          `<span style="color: #56b6c2;">-- Program exited --</span>`;
     
     consoleWindow.appendChild(logEntry);

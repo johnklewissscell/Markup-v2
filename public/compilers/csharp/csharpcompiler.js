@@ -70,16 +70,51 @@ const setupTabs = (containerId) => {
     });
 };
 
+function simulateCSharp(code) {
+    let output = '';
+    const vars = {};
+
+    const lines = code.split('\n');
+
+    lines.forEach(line => {
+        line = line.trim();
+
+        if (line.startsWith('int ')) {
+            const match = line.match(/int (\w+) = (\w+)\((\d+),\s*(\d+)\)/);
+            if (match) {
+                const name = match[1];
+                const a = Number(match[3]);
+                const b = Number(match[4]);
+                vars[name] = a + b;
+            }
+        }
+
+        if (line.includes('Console.WriteLine')) {
+            const content = line.match(/Console\.WriteLine\((.*)\)/)[1].trim();
+
+            if (/^".*"$/.test(content)) {
+                output += content.slice(1, -1) + '<br>';
+            } else if (content.startsWith('$"')) {
+                let text = content.slice(2, -1);
+                text = text.replace(/{(\w+)}/g, (_, v) => vars[v] ?? '');
+                output += text + '<br>';
+            }
+        }
+    });
+
+    return output;
+}
+
 document.getElementById('run').addEventListener('click', () => {
     fileContents[currentFile] = editor.value;
     consoleWindow.innerHTML = '<span style="color: #569cd6;">dotnet build...</span><br><span style="color: #569cd6;">dotnet run</span><br><br>';
     
     setTimeout(() => {
         const log = document.createElement('div');
-        log.innerHTML = `Hello from C#!<br>Result: 35<br><br><span style="color: #6a9955;">Build succeeded. 0 Warning(s). 0 Error(s).</span>`;
+        log.innerHTML = simulateCSharp(editor.value) + '<br><span style="color: #6a9955;">Build succeeded. 0 Warning(s). 0 Error(s).</span>';
         consoleWindow.appendChild(log);
         consoleWindow.scrollTop = consoleWindow.scrollHeight;
-    }, 600);
+    }, 400);
 });
 
 setupTabs('files');
